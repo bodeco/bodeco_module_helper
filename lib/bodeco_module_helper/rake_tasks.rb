@@ -15,7 +15,7 @@ def validate(path)
 
   Dir.glob(path).each do |file|
     yield file
-    case $?.exitcode
+    case $?.exitstatus
     when 0
       success.push file
     else
