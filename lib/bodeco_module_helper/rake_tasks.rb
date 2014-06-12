@@ -51,9 +51,15 @@ task :validate do
   end
 end
 
-# Initialize vagrant instance for testing
-desc 'Vagrant VM power on and provision'
-task :vagrant, :manifest do |t, args|
+desc 'Travis CI Tests'
+task :travis do
+  Rake::Task['validate'].execute
+  Rake::Task['lint'].execute
+  Rake::Task['spec'].execute
+end
+
+desc 'Vagrant VM power up and provision'
+task :vagrant_up, :manifest do |t, args|
   Rake::Task['spec_prep'].execute
 
   provision = false
