@@ -62,11 +62,12 @@ desc 'Vagrant VM power up and provision'
 task :vagrant_up, :manifest do |t, args|
   Rake::Task['spec_prep'].execute
 
+  env = "VAGRANT_MANIFEST='#{args[:manifest]||'init.pp'}'"
   provision = false
-  io_popen('vagrant up --provider=vmware_fusion') do |line|
+  io_popen("export #{env}; vagrant up --provider=vmware_fusion") do |line|
     provision = true if line =~ /Machine is already running./
   end
-  io_popen('vagrant provision') if provision
+  io_popen("export #{env}; vagrant provision") if provision
 end
 
 # Cleanup vagrant environment
