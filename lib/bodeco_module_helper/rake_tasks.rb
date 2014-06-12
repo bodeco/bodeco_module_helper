@@ -64,8 +64,8 @@ task :vagrant, :manifest do |t, args|
 end
 
 # Cleanup vagrant environment
-desc 'Vagrant VM shutdown and cleanup fixtures'
-task :vagrant_clean do
+desc 'Vagrant VM shutdown and fixtures cleanup'
+task :vagrant_destroy do
   `vagrant destroy -f`
   Rake::Task['spec_clean'].execute
 end

@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.authors     = ['Nan Liu', 'Dan Bode']
   s.email       = 'info@bodeco.io'
-  s.homepage    = 'http://github.com/bodeco/bodeco_module/helper'
+  s.homepage    = 'http://github.com/bodeco/bodeco_module_helper'
   s.summary     = 'Bodeco Puppet module helper.'
   s.description = 'Rake tasks and gem dependencies for puppet module testing.'
   s.licenses    = ['Apache 2.0']
