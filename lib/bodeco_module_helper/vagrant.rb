@@ -25,7 +25,7 @@ def vm(opt)
       mod.vm.provision :puppet do |p|
         p.manifests_path = 'tests'
         p.manifest_file = ENV['VAGRANT_MANIFEST'] || 'init.pp'
-        p.options = '--modulepath "/etc/puppet//modules:/tmp/puppet/modules"'
+        p.options = '--modulepath "/etc/puppet/modules:/tmp/puppet/modules"'
       end
     end
   end
