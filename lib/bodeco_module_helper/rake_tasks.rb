@@ -64,7 +64,7 @@ task :vagrant_up, :manifest do |t, args|
 
   env = "VAGRANT_MANIFEST='#{args[:manifest]||'init.pp'}'"
   provision = false
-  io_popen("export #{env}; vagrant up --provider=vmware_fusion") do |line|
+  io_popen("export #{env}; vagrant up") do |line|
     provision = true if line =~ /Machine is already running./
   end
   io_popen("export #{env}; vagrant provision") if provision
