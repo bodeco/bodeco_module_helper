@@ -66,7 +66,7 @@ task :vagrant_up, [:manifest, :hostname] do |t, args|
   env = "VAGRANT_MANIFEST='#{args[:manifest]}'"
   provision = false
   io_popen("export #{env}; vagrant up #{args[:hostname]}") do |line|
-    provision = true if line =~ /Machine is already running./
+    provision = true if line =~ /is already running./
   end
   io_popen("export #{env}; vagrant provision #{args[:hostname]}") if provision
 end
