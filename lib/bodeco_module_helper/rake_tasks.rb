@@ -59,15 +59,16 @@ task :travis do
 end
 
 desc 'Vagrant VM power up and provision'
-task :vagrant_up, :manifest do |t, args|
+task :vagrant_up, [:manifest, :hostname] do |t, args|
+  args.with_defaults(:manifest => 'init.pp', :hostname => '')
   Rake::Task['spec_prep'].execute
 
-  env = "VAGRANT_MANIFEST='#{args[:manifest]||'init.pp'}'"
+  env = "VAGRANT_MANIFEST='#{args[:manifest]}'"
   provision = false
-  io_popen("export #{env}; vagrant up") do |line|
+  io_popen("export #{env}; vagrant up #{args[:hostname]}") do |line|
     provision = true if line =~ /Machine is already running./
   end
-  io_popen("export #{env}; vagrant provision") if provision
+  io_popen("export #{env}; vagrant provision #{args[:hostname]}") if provision
 end
 
 # Cleanup vagrant environment

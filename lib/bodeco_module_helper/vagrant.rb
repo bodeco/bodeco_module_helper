@@ -5,43 +5,75 @@ def vm(opt)
   cpu = opt.fetch(:cpu, 1)
   box = opt.fetch(:box).to_s || raise(ArgumentError, 'Must provide box type.')
   url = opt.fetch(:url, '').to_s
+  type = opt.fetch(:type, :linux)
+  gui = opt.fetch(:gui, false)
   port = opt.fetch(:port, nil)
+  iso = opt.fetch(:iso, nil)
 
   Vagrant.configure('2') do |conf|
 
-    conf.vm.synced_folder './', "/etc/puppet/modules/#{module_name}"
-    conf.vm.synced_folder 'spec/fixtures/modules', '/tmp/puppet/modules'
-
     conf.vm.network(:forwarded_port, guest: port, host: port, auto_correct: true) if port
 
-    conf.vm.define module_name.to_sym do |mod|
+    case type
+    when :windows
+      conf.vm.guest = :windows
+      conf.ssh.username = 'vagrant'
+
+      conf.winrm.username = 'vagrant'
+      conf.winrm.password = 'vagrant'
+      conf.vm.communicator = 'winrm'
+      conf.vm.synced_folder './' , '/ProgramData/PuppetLabs/puppet/etc/modules/onesource'
+      conf.vm.synced_folder 'spec/fixtures/modules' , '/temp/modules'
+    else
+      conf.vm.synced_folder './', "/etc/puppet/modules/#{module_name}"
+      conf.vm.synced_folder 'spec/fixtures/modules', '/tmp/puppet/modules'
+    end
+
+    conf.vm.define hostname.to_sym do |mod|
       mod.vm.box = box
       mod.vm.box_url = url
 
       mod.vm.hostname = hostname
 
       mod.vm.provider :vmware_fusion do |f|
+        f.gui = gui
         f.vmx['displayName'] = hostname
         f.vmx['memsize'] = memory
         f.vmx['numvcpus'] = cpu
+        if iso
+          f.vmx['ide1:0.devicetype'] = "cdrom-image"
+          f.vmx['ide1:0.filename'] = iso
+        end
       end
 
       mod.vm.provider :vmware_workstation do |f|
+        f.gui = gui
         f.vmx['displayName'] = hostname
         f.vmx['memsize'] = memory
         f.vmx['numvcpus'] = cpu
+        if iso
+          f.vmx['ide1:0.devicetype'] = "cdrom-image"
+          f.vmx['ide1:0.filename'] = iso
+        end
       end
 
       mod.vm.provider :virtualbox do |v|
+        v.gui = gui
         v.name = hostname
         v.memory = memory
         v.cpus = cpu
       end
 
-      mod.vm.provision :puppet do |p|
-        p.manifests_path = 'tests'
-        p.manifest_file = ENV['VAGRANT_MANIFEST'] || 'init.pp'
-        p.options = '--modulepath "/etc/puppet/modules:/tmp/puppet/modules"'
+      case type
+      when :windows
+        manifest = ENV['VAGRANT_MANIFEST'] || 'init.pp'
+        mod.vm.provision :shell, :inline => "puppet apply --modulepath 'C:/ProgramData/PuppetLabs/puppet/etc/modules;C:/temp/modules' --verbose C:/ProgramData/PuppetLabs/puppet/etc/modules/onesource/tests/#{manifest}"
+      else
+        mod.vm.provision :puppet do |p|
+          p.manifests_path = 'tests'
+          p.manifest_file = ENV['VAGRANT_MANIFEST'] || 'init.pp'
+          p.options = '--modulepath "/etc/puppet/modules:/tmp/puppet/modules"'
+        end
       end
     end
   end
