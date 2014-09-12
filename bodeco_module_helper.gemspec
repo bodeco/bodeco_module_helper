@@ -4,7 +4,7 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name = 'bodeco_module_helper'
-  s.version = '0.0.1'
+  s.version = '0.0.2'
 
   s.authors     = ['Nan Liu', 'Dan Bode']
   s.email       = 'info@bodeco.io'
@@ -25,12 +25,8 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency 'puppet'
   end
 
-  s.add_runtime_dependency 'rake'
-  s.add_runtime_dependency 'rspec', '~> 2.11.0'
-  s.add_runtime_dependency 'mocha', '~> 0.10.5'
+  s.add_runtime_dependency 'r10k'
   s.add_runtime_dependency 'puppetlabs_spec_helper'
-  s.add_runtime_dependency 'rspec-puppet'
-  s.add_runtime_dependency 'puppet-lint'
 
   s.files = Dir.glob('lib/**/*') + %w(LICENSE)
   s.require_path = 'lib'
