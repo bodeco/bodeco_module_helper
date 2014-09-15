@@ -33,8 +33,11 @@ end
 
 # Customize puppet-lint options
 task :lint do
-  PuppetLint.configuration.send('disable_80chars')
-  PuppetLint.configuration.send('disable_class_parameter_defaults')
+  PuppetLint.configuration.relative = true
+  PuppetLint.configuration.disable_80chars
+  PuppetLint.configuration.disable_arrow_alignment
+  PuppetLint.configuration.disable_class_inherits_from_params_class
+  PuppetLint.configuration.disable_class_parameter_defaults
   PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp']
 end
 
