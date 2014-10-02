@@ -33,6 +33,13 @@ end
 
 begin
   require 'puppet_blacksmith/rake_tasks'
+
+  # Don't tag with any prefix
+  class Blacksmith::Git
+    def tag!(version)
+      exec_git "tag #{version}"
+    end
+  end
 rescue LoadError
 end
 
