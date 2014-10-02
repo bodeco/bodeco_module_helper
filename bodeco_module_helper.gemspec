@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'r10k'
   s.add_runtime_dependency 'rspec', '~> 2.11.0'
   s.add_runtime_dependency 'puppetlabs_spec_helper', '~> 0.7.0'
+  s.add_runtime_dependency 'puppet-blacksmith'
 
   s.files = Dir.glob('lib/**/*') + %w(LICENSE)
   s.require_path = 'lib'

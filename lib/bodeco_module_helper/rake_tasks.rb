@@ -31,6 +31,11 @@ def validate(path)
   end
 end
 
+begin
+  require 'puppet_blacksmith/rake_tasks'
+rescue LoadError
+end
+
 # Customize puppet-lint options
 task :lint do
   PuppetLint.configuration.relative = true
