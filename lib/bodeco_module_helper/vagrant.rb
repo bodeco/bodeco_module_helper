@@ -27,7 +27,7 @@ def vm(opt)
       if os_type == :windows
         mod.vm.guest = :windows
         mod.vm.communicator = 'winrm'
-        mod.vm.synced_folder './' , '/ProgramData/PuppetLabs/puppet/etc/modules/onesource'
+        mod.vm.synced_folder './' , "/ProgramData/PuppetLabs/puppet/etc/modules/#{module_name}"
         mod.vm.synced_folder 'spec/fixtures/modules' , '/temp/modules'
       else
         mod.vm.synced_folder './', "/etc/puppet/modules/#{module_name}"
@@ -67,7 +67,7 @@ def vm(opt)
 
       if os_type == :windows
         manifest = ENV['VAGRANT_MANIFEST'] || 'init.pp'
-        mod.vm.provision :shell, :inline => "puppet apply --modulepath 'C:/ProgramData/PuppetLabs/puppet/etc/modules;C:/temp/modules' --verbose C:/ProgramData/PuppetLabs/puppet/etc/modules/onesource/tests/#{manifest}"
+        mod.vm.provision :shell, :inline => "puppet apply --modulepath 'C:/ProgramData/PuppetLabs/puppet/etc/modules;C:/temp/modules' --verbose C:/ProgramData/PuppetLabs/puppet/etc/modules/#{module_name}/tests/#{manifest}"
       else
         mod.vm.provision :puppet do |p|
           p.manifests_path = 'tests'
