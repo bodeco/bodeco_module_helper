@@ -50,7 +50,7 @@ task :lint do
   PuppetLint.configuration.disable_arrow_alignment
   PuppetLint.configuration.disable_class_inherits_from_params_class
   PuppetLint.configuration.disable_class_parameter_defaults
-  PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp']
+  PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp', 'vendor/**/*.pp']
 end
 
 desc 'Validate puppet manifests, ERB templates, and Ruby files.'
