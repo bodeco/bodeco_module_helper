@@ -89,6 +89,7 @@ end
 # Cleanup vagrant environment
 desc 'Vagrant VM shutdown and fixtures cleanup'
 task :vagrant_destroy do
+  Rake::Task['spec_prep'].execute
   `vagrant destroy -f`
   Rake::Task['spec_clean'].execute
 end
