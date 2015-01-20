@@ -5,7 +5,7 @@ def vm(opt)
   cpu = opt.fetch(:cpu, 1)
   box = opt.fetch(:box).to_s || raise(ArgumentError, 'Must provide box type.')
   url = opt.fetch(:url, '').to_s
-  os_type = opt.fetch(:type, :linux)
+  os_type = opt[:os_type] || opt[:type] || :linux
   gui = opt.fetch(:gui, false)
   port = opt.fetch(:port, nil)
   iso = opt.fetch(:iso, nil)
