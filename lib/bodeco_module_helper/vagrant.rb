@@ -7,12 +7,15 @@ def vm(opt)
   url = opt.fetch(:url, '').to_s
   os_type = opt[:os_type] || opt[:type] || :linux
   gui = opt.fetch(:gui, false)
-  port = opt.fetch(:port, nil)
+  ports = Array(opt.fetch(:port, []))
   iso = opt.fetch(:iso, nil)
 
   Vagrant.configure('2') do |conf|
 
-    conf.vm.network(:forwarded_port, guest: port, host: port, auto_correct: true) if port
+    # forward all the ports
+    ports.each do |p|
+      conf.vm.network(:forwarded_port, guest: p, host: p, auto_correct: true)
+    end
 
     if os_type == :windows
       conf.ssh.username = 'vagrant'
