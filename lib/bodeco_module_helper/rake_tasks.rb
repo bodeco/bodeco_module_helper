@@ -44,13 +44,22 @@ rescue LoadError
 end
 
 # Customize puppet-lint options
-task :lint do
-  PuppetLint.configuration.relative = true
-  PuppetLint.configuration.disable_80chars
-  PuppetLint.configuration.disable_arrow_alignment
-  PuppetLint.configuration.disable_class_inherits_from_params_class
-  PuppetLint.configuration.disable_class_parameter_defaults
-  PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp', 'vendor/**/*.pp']
+require 'puppet-lint/tasks/puppet-lint'
+
+Rake::Task[:lint].clear
+PuppetLint::RakeTask.new :lint do |config|
+  config.relative = true
+  config.disable_checks = [
+    '80chars',
+    'arrow_alignment',
+    'class_inherits_from_params_class',
+    'class_parameter_defaults',
+  ]
+  config.ignore_paths = [
+    'spec/**/*.pp',
+    'pkg/**/*.pp',
+    'vendor/**/*.pp'
+  ]
 end
 
 desc 'Validate puppet manifests, ERB templates, and Ruby files.'
