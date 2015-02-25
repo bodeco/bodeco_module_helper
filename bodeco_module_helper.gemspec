@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'r10k'
   s.add_runtime_dependency 'rspec'
-  s.add_runtime_dependency 'puppetlabs_spec_helper', '~> 0.8'
+  s.add_runtime_dependency 'puppetlabs_spec_helper', '~> 0.9'
   s.add_runtime_dependency 'puppet-blacksmith'
   s.add_runtime_dependency 'rspec-puppet-utils'
 
