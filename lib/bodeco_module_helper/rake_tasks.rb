@@ -64,6 +64,9 @@ task :validate do
   validate('templates/**/*.erb') do |template|
     system("erb -P -x -T '-' #{template} | ruby -c > /dev/null")
   end
+  validate('spec/**/*.yaml') do |yaml|
+    system("ruby -ryaml -e YAML.load_file '#{yaml}' > /dev/null")
+  end
 end
 
 desc 'Travis CI Tests'
