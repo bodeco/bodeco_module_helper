@@ -65,7 +65,7 @@ task :validate do
     system("erb -P -x -T '-' #{template} | ruby -c > /dev/null")
   end
   validate('spec/**/*.yaml') do |yaml|
-    system(ruby -ryaml -e "YAML.load_file '#{yaml}'" > /dev/null)
+    system("ruby -ryaml -e YAML.load_file '#{yaml}' > /dev/null")
   end
 end
 
